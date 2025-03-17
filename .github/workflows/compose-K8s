@@ -1,7 +1,7 @@
 name: Convert Docker Compose to Kubernetes
 
 on:
-  push:
+  commit:
     branches:
       - main  # Se ejecuta en cada push a main
   workflow_dispatch:  # Permite ejecución manual
