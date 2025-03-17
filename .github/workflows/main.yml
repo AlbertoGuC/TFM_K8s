@@ -23,7 +23,7 @@ jobs:
       - name: Convert docker-compose to Kubernetes
         run: |
           mkdir -p k8s-manifests
-          kompose convert -f docker-compose.yml -o k8s-manifests/
+          kompose convert -f docker-compose.yaml -o k8s-manifests/
 
       - name: Commit and Push changes
         run: |
