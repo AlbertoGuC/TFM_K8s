@@ -1,69 +1,12 @@
 pipeline {
-    agent any
-    environment {
-        GIT_REPO_URL = 'https://github.com/AlbertoGuC/TFM_K8s.git'
-        GIT_BRANCH = 'main'
-        GIT_CREDENTIALS = 'github'  // Asegúrate de tener la credencial configurada en Jenkins
-    }
-    stages {
-        stage('Checkout SCM') {
-            steps {
-                script {
-                    // Se asegura de que Jenkins haga checkout de la rama 'main'
-                    checkout([
-                        $class: 'GitSCM',
-                        branches: [[name: "*/${GIT_BRANCH}"]],
-                        userRemoteConfigs: [[url: GIT_REPO_URL, credentialsId: GIT_CREDENTIALS]]
-                    ])
-                }
-            }
-        }
-        
-        stage('Konvert') {
-            steps {
-                script {
-                    // Crear el directorio y convertir docker-compose a Kubernetes
-                    sh 'mkdir -p k8s-manifests-j'
-                    sh 'kompose convert -f docker-compose.yaml -o k8s-manifests-j/'
-                }
-            }
-        }
-
-        stage('Push Changes') {
-            steps {
-                script {
-                    // Limpiar los archivos generados antes de hacer checkout de la rama main
-                    sh 'rm -rf k8s-manifests-j/*'
-
-                    // Configurar nombre y correo para commit
-                    sh 'git config --global user.name "Jenkins"'
-                    sh 'git config --global user.email "jenkins@yourdomain.com"'
-                    
-                    // Asegurarse de que estamos en la rama correcta
-                    sh 'git checkout ${GIT_BRANCH}'
-                    
-                    // Realizar un pull para estar completamente actualizado
-                    sh 'git pull --rebase https://github.com/AlbertoGuC/TFM_K8s.git ${GIT_BRANCH}'
-                    
-                    // Agregar los nuevos archivos generados
-                    sh 'git add k8s-manifests-j/'
-
-                    // Commit de los cambios
-                    sh 'git commit -m "Auto-converted docker-compose to Kubernetes manifests"'
-
-                    // Intentar hacer push al repositorio
-                    sh 'git push https://github.com/AlbertoGuC/TFM_K8s.git ${GIT_BRANCH}'
-                }
-            }
-        }
-    }
-
-    post {
-        failure {
-            echo 'Pipeline failed!'
-        }
-        success {
-            echo 'Pipeline finished successfully!'
-        }
+  agent any
+  environment {
+    GITRHUB_CREDENTIALS = credentials('github')
+  }
+  stages {
+    stage('Build') {
+      steps {
+        sh 'git status'
+      }
     }
 }
