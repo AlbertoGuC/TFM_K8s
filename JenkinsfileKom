@@ -4,6 +4,11 @@ pipeline {
         GITHUB_CREDENTIALS = credentials('github')
     }
     stages {
+        stage('Checkout código') {
+                    steps {
+                        checkout scm 
+                    }
+        }
         stage('Konvert') {
             steps {
                 sh '''
@@ -17,7 +22,6 @@ pipeline {
                 sh '''
                 git config --global user.name "Jenkins"
                 git config --global user.email "jenkins@yourdomain.com"
-                git checkout main
                 git add k8s-manifests-j/
                 git commit -m "Auto-converted docker-compose to Kubernetes manifests" || echo "No changes to commit"
                 git push  https://${GITHUB__CREDENTIALS_USR}:${GITHUB__CREDENTIALS_PSW}@github.com/AlbertoGuC/TFM_K8s.git main
