@@ -1,0 +1,28 @@
+pipeline {
+    agent any
+    environment {
+        GITHUB_CREDENTIALS = credentials('github')
+    }
+    stages {
+        stage('Konvert') {
+            steps {
+                sh '''
+                mkdir -p k8s-manifests
+                kompose convert -f docker-compose.yaml -o k8s-manifests/
+                '''
+            }
+        }
+        stage('Push') {
+            steps {
+                sh '''
+                git config --global user.name "Jenkins"
+                git config --global user.email "jenkins@yourdomain.com"
+                
+                git add k8s-manifests/
+                git commit -m "Auto-converted docker-compose to Kubernetes manifests"
+                git push origin main
+                '''
+            }
+        }
+    }
+}
