@@ -32,6 +32,9 @@ pipeline {
         stage('Push Changes') {
             steps {
                 script {
+                    // Limpiar los archivos generados antes de hacer checkout de la rama main
+                    sh 'rm -rf k8s-manifests-j/*'
+
                     // Configurar nombre y correo para commit
                     sh 'git config --global user.name "Jenkins"'
                     sh 'git config --global user.email "jenkins@yourdomain.com"'
