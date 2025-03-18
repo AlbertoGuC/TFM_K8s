@@ -23,10 +23,10 @@ pipeline {
                     // Configura el nombre de usuario y correo para los commits
                     sh 'git config --global user.name "Jenkins"'
                     sh 'git config --global user.email "jenkins@yourdomain.com"'
-                    
-                    // Haz un pull para traer los cambios remotos antes de hacer el push
+
+                    // Haz un pull con rebase para asegurar que tu rama local esté al día
                     sh '''
-                    git pull https://${GITHUB_USER_USR}:${GITHUB_USER_PSW}@github.com/AlbertoGuC/TFM_K8s.git main || true
+                    git pull --rebase https://${GITHUB_USER_USR}:${GITHUB_USER_PSW}@github.com/AlbertoGuC/TFM_K8s.git main || true
                     ''' // Se usa || true para evitar que falle si no hay cambios
 
                     // Agrega los archivos modificados
