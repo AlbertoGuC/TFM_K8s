@@ -17,7 +17,7 @@ pipeline {
                 sh '''
                 git config --global user.name "Jenkins"
                 git config --global user.email "jenkins@yourdomain.com"
-                
+                git checkout main
                 git add k8s-manifests/
                 git commit -m "Auto-converted docker-compose to Kubernetes manifests"
                 git push origin main
