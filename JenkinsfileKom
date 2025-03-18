@@ -25,7 +25,9 @@ pipeline {
                     sh 'git config --global user.email "jenkins@yourdomain.com"'
                     
                     // Haz un pull para traer los cambios remotos antes de hacer el push
-                    sh 'git pull origin main || true'  // Se usa || true para evitar que falle si no hay cambios
+                    sh '''
+                    git pull https://${GITHUB_USER_USR}:${GITHUB_USER_PSW}@github.com/AlbertoGuC/TFM_K8s.git main || true
+                    ''' // Se usa || true para evitar que falle si no hay cambios
 
                     // Agrega los archivos modificados
                     sh 'git add k8s-manifests-j/'
