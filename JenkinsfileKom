@@ -20,7 +20,7 @@ pipeline {
                 git checkout main
                 git add k8s-manifests-j/
                 git commit -m "Auto-converted docker-compose to Kubernetes manifests" || echo "No changes to commit"
-                git push origin main
+                git push  https://${GITHUB__CREDENTIALS_USR}:${GITHUB__CREDENTIALS_PSW}@github.com/AlbertoGuC/TFM_K8s.git main
                 '''
             }
         }
