@@ -1,13 +1,14 @@
 pipeline {
     agent any
     environment {
-        GITHUB_CREDENTIALS = credentials('github')
+        // Definimos las credenciales bajo la variable 'github'
+        GITHUB_USER = credentials('github') // Esto es el nombre de la credencial que contiene usuario y contraseña
     }
     stages {
         stage('Checkout código') {
-                    steps {
-                        checkout scm 
-                    }
+            steps {
+                checkout scm  // Jenkins maneja automáticamente el checkout en Multibranch Pipeline
+            }
         }
         stage('Konvert') {
             steps {
@@ -22,9 +23,12 @@ pipeline {
                 sh '''
                 git config --global user.name "Jenkins"
                 git config --global user.email "jenkins@yourdomain.com"
+                
                 git add k8s-manifests-j/
                 git commit -m "Auto-converted docker-compose to Kubernetes manifests" || echo "No changes to commit"
-                git push  https://$GITHUB__CREDENTIALS_PSW@github.com/AlbertoGuC/TFM_K8s.git main
+                
+                # Usando las credenciales de la variable de entorno 'GITHUB_USER'
+                git push https://${GITHUB_USER_USR}:${GITHUB_USER_PSW}@github.com/AlbertoGuC/TFM_K8s.git main
                 '''
             }
         }
