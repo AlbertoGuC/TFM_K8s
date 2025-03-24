@@ -9,7 +9,7 @@ pipeline {
   stages {
     stage('Build') {
       steps {
-        sh 'docker build -t localhost:30009/docker-priv/nextest:latest .'
+        sh 'docker build -t localhost:30009/docker-priv/nextest2:latest .'
       }
     }
     stage('Login') {
@@ -19,7 +19,7 @@ pipeline {
     }
     stage('Push') {
       steps {
-        sh 'docker push localhost:30009/docker-priv/nextest:latest'
+        sh 'docker push localhost:30009/docker-priv/nextest2:latest'
       }
     }
   }
