@@ -1,7 +1,7 @@
 pipeline {
     agent {
         kubernetes {
-            podTemplate(yaml: """
+            yaml """
 apiVersion: v1
 kind: Pod
 spec:
@@ -16,7 +16,7 @@ spec:
       args:
       - "--context=/workspace"
       - "--dockerfile=/workspace/Dockerfile"
-      - "--destination=alberguarchu/kanikotest:${BUILD_NUMBER}"
+      - "--destination=alberguarchu/kanikotest:\${BUILD_NUMBER}"
       volumeMounts:
       - name: workspace-volume
         mountPath: /workspace
@@ -28,7 +28,7 @@ spec:
     - name: docker-config
       secret:
         secretName: dockerhub-credentials
-""")
+"""
         }
     }
     stages {
