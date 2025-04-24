@@ -4,6 +4,13 @@ pipeline {
     GITHUB_CREDENTIALS = credentials('github')
   }
   stages {
+    stage('Limpiar Workspace') {
+            steps {
+                script {
+                    cleanWs()
+                }
+            }
+        }
     stage('Build') {
       steps {
         sh '''
