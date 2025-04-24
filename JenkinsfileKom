@@ -7,6 +7,7 @@ pipeline {
     stage('Build') {
       steps {
         sh '''
+        git pull
         rm -rf k8s-manifests-K8
         mkdir -p k8s-manifests-K8
         kompose convert -f docker-compose.yaml -o k8s-manifests-K8/
