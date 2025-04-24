@@ -30,7 +30,7 @@ pipeline {
           git config --global user.email "Jenkins@users.noreply.github.com"
           git add k8s-manifests-K8/
           git commit -m "Auto-converted docker-compose to Kubernetes manifests" || echo "No changes to commit"
-          git pull origin main
+          git pull https://${env.GITHUB_CREDENTIALS}@github.com/AlbertoGuC/TFM_K8s main
           git push https://$GITHUB_CREDENTIALS_USR:$GITHUB_CREDENTIALS_PSW@github.com/AlbertoGuC/TFM_K8s main
         '''
       }  
