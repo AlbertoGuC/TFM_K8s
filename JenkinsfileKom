@@ -17,7 +17,7 @@ pipeline {
     stage('Info') {
       steps{
         sh'''
-          echo "Última actualización: $(date '+%Y-%m-%d %H:%M:%S')" | cat - README.md > temp && mv temp README.md
+          echo "Última actualización: $(date '+%Y-%m-%d %H:%M:%S')" | sed '1c\' - README.md > temp && mv temp README.md
           git add README.md
         '''
       }
