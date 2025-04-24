@@ -12,8 +12,6 @@ spec:
   selector:
     matchLabels:
       io.kompose.service: web
-  strategy:
-    type: Recreate
   template:
     metadata:
       annotations:
@@ -23,33 +21,9 @@ spec:
         io.kompose.service: web
     spec:
       containers:
-        - args:
-            - /bin/sh
-            - -c
-            - sed -i 's/listen 80;/listen 3000;/' /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'
-          image: nginx:latest
-          name: nginx-container
+        - image: alberguarchu/testj:latest
+          name: web
           ports:
             - containerPort: 80
               protocol: TCP
-          volumeMounts:
-            - mountPath: /usr/share/nginx/html/index.html
-              name: web-cm0
-              subPath: index.html
-            - mountPath: /usr/share/nginx/html/styles.css
-              name: web-cm1
-              subPath: styles.css
       restartPolicy: Always
-      volumes:
-        - configMap:
-            items:
-              - key: index.html
-                path: index.html
-            name: web-cm0
-          name: web-cm0
-        - configMap:
-            items:
-              - key: styles.css
-                path: styles.css
-            name: web-cm1
-          name: web-cm1
