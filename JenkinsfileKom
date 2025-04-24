@@ -4,6 +4,11 @@ pipeline {
     GITHUB_CREDENTIALS = credentials('github')
   }
   stages {
+    stage('Checkout del Repositorio') {
+            steps {
+                checkout(url: https://github.com/AlbertoGuC/TFM_K8s.git , credentialsId: env.GIT_CREDENTIALS)
+            }
+    }
     stage('Build') {
       steps {
         sh '''
