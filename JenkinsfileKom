@@ -7,7 +7,6 @@ pipeline {
     stage('Build') {
       steps {
         sh '''
-        git checkout main
         rm -rf k8s-manifests-K8
         mkdir -p k8s-manifests-K8
         kompose convert -f docker-compose.yaml -o k8s-manifests-K8/
@@ -30,7 +29,7 @@ pipeline {
           git config --global user.email "Jenkins@users.noreply.github.com"
           git add k8s-manifests-K8/
           git commit -m "Auto-converted docker-compose to Kubernetes manifests" || echo "No changes to commit"
-          git push https://$GITHUB_CREDENTIALS_USR:$GITHUB_CREDENTIALS_PSW@github.com/AlbertoGuC/TFM_K8s main
+          git push https://$GITHUB_CREDENTIALS_USR:$GITHUB_CREDENTIALS_PSW@github.com/AlbertoGuC/TFM_K8s HEAD:$BRANCH_NAME
         '''
       }  
     }
