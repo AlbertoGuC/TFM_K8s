@@ -11,6 +11,12 @@ pipeline {
                 }
             }
         }
+        stage('Checkout SCM') {
+            steps {
+                // Clona el repositorio (esto se ejecutará en un workspace limpio)
+                checkout scm
+            }
+        }
     stage('Build') {
       steps {
         sh '''
