@@ -9,8 +9,8 @@ metadata:
   name: web
 spec:
   ports:
-    - name: "30000"
-      port: 30000
+    - name: "30002"
+      port: 30002
       targetPort: 80
   selector:
     io.kompose.service: web
