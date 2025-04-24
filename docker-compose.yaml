@@ -13,7 +13,4 @@ services:
     container_name: web
     ports:
       - "30000:80"
-    depends_on:
-      - repodown
-    networks:
-      - devops-net
+
