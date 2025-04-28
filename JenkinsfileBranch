@@ -1,0 +1,26 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+      
+        stage('Crear rama Jenkins') {
+            steps {
+                sh '''
+                    git config --global user.name "jenkins-bot"
+                    git config --global user.email "jenkins-bot@example.com"
+                    
+                    if git ls-remote --exit-code --heads origin jenkins; then
+                        echo "La rama jenkins ya existe"
+                    else
+                        git checkout -b jenkins
+                        git push origin jenkins
+                  '''
+            }
+        }
+    }
+}
