@@ -12,10 +12,14 @@ jobs:
 
       - name: Branch Develop
         uses: peterjgrainger/action-create-branch@v3.0.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          branch: develop
+            branch: 'develop'
 
       - name: Branch Test
         uses: peterjgrainger/action-create-branch@v3.0.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          branch: test
+            branch: 'test'
