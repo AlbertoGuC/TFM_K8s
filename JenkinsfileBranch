@@ -2,7 +2,6 @@ pipeline {
     agent any
     environment {
         GITHUB_CREDENTIALS = credentials('github')
-        REPO = 'https://$GITHUB_CREDENTIALS_USR:$GITHUB_CREDENTIALS_PSW@github.com/AlbertoGuC/TFM_K8s.git'
     }
     stages {
         stage('Checkout') {
@@ -21,7 +20,7 @@ pipeline {
                         echo "La rama jenkins ya existe"
                     else
                         git checkout -b jenkins
-                        git push REPO jenkins
+                        git push https://$GITHUB_CREDENTIALS_USR:$GITHUB_CREDENTIALS_PSW@github.com/AlbertoGuC/TFM_K8s.git jenkins
                     fi
                   '''
             }
