@@ -1,6 +1,8 @@
 pipeline {
     agent any
-
+    environment {
+        GITHUB_CREDENTIALS = credentials('github')
+    }
     stages {
         stage('Checkout') {
             steps {
@@ -11,14 +13,14 @@ pipeline {
         stage('Crear rama Jenkins') {
             steps {
                 sh '''
-                    git config --global user.name "jenkins-bot"
-                    git config --global user.email "jenkins-bot@example.com"
+                    git config --global user.name "Jenkins"
+                    git config --global user.email "jenkins@example.com"
                     
                     if git ls-remote --exit-code --heads origin jenkins; then
                         echo "La rama jenkins ya existe"
                     else
                         git checkout -b jenkins
-                        git push origin jenkins
+                        git push https://$GITHUB_CREDENTIALS_USR:$GITHUB_CREDENTIALS_PSW@github.com/AlbertoGuC/TFM_K8s main jenkins
                     fi
                   '''
             }
