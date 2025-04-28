@@ -19,6 +19,7 @@ pipeline {
                     else
                         git checkout -b jenkins
                         git push origin jenkins
+                    fi
                   '''
             }
         }
