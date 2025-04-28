@@ -2,7 +2,7 @@ pipeline {
     agent any
     environment {
         GITHUB_CREDENTIALS = credentials('github')
-        origen= 'https://$GITHUB_CREDENTIALS_USR:$GITHUB_CREDENTIALS_PSW@github.com/AlbertoGuC/TFM_K8s'
+        REPO = 'https://$GITHUB_CREDENTIALS_USR:$GITHUB_CREDENTIALS_PSW@github.com/AlbertoGuC/TFM_K8s'
     }
     stages {
         stage('Checkout') {
@@ -17,11 +17,11 @@ pipeline {
                     git config --global user.name "Jenkins"
                     git config --global user.email "jenkins@example.com"
                     
-                    if git ls-remote --exit-code --heads origen jenkins; then
+                    if git ls-remote --exit-code --heads REPO jenkins; then
                         echo "La rama jenkins ya existe"
                     else
                         git checkout -b jenkins
-                        git push origen main jenkins
+                        git push REPO jenkins
                     fi
                   '''
             }
