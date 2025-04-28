@@ -2,7 +2,7 @@ pipeline {
     agent any
     environment {
         GITHUB_CREDENTIALS = credentials('github')
-        REPO = 'https://$GITHUB_CREDENTIALS_USR:$GITHUB_CREDENTIALS_PSW@github.com/AlbertoGuC/TFM_K8s'
+        REPO = 'https://$GITHUB_CREDENTIALS_USR:$GITHUB_CREDENTIALS_PSW@github.com/AlbertoGuC/TFM_K8s.git'
     }
     stages {
         stage('Checkout') {
