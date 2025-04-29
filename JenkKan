@@ -1,0 +1,55 @@
+pipeline {
+  agent {
+    kubernetes {
+      yaml """
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    some-label: kaniko
+spec:
+  containers:
+  - name: kaniko
+    image: gcr.io/kaniko-project/executor:latest
+    command:
+    - cat
+    tty: true
+    volumeMounts:
+    - name: kaniko-secret
+      mountPath: /kaniko/.docker
+  volumes:
+  - name: kaniko-secret
+    secret:
+      secretName: regcred
+"""
+    }
+  }
+
+  environment {
+    IMAGE = "alberguarchu/jenkub:latest"
+    GITHUB_CREDENTIALS = credentials('github')
+  }
+
+  stages {
+    stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+
+    stage('Kaniko') {
+      steps {
+        container('kaniko') {
+          sh '''
+            /kaniko/executor \
+              --dockerfile=Dockerfile \
+              --context=$(pwd) \
+              --destination=$IMAGE \
+              --insecure \
+              --skip-tls-verify
+          '''
+        }
+      }
+    }
+  }
+}
