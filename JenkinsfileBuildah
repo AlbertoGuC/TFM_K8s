@@ -34,11 +34,9 @@ pipeline{
     stage('Push') {
       steps {
           container('buildah') {
-              withCredentials() {
                   sh "buildah login -u '$DOCKERHUB_CREDENTIALS_USR' -p '$DOCKERHUB_CREDENTIALS_PSW' docker.io"
                   sh "buildah push docker.io/alberguarchu/buildahjenkins:latest"
                   sh "buildah logout docker.io"
-              }
           }
       }
     }
