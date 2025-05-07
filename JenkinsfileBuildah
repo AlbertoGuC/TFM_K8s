@@ -1,38 +1,19 @@
 pipeline {
     agent {
-        kubernetes {
-            yaml """
-apiVersion: v1
-kind: Pod
-spec:
-  containers:
-  - name: buildah
-    image: quay.io/buildah/stable:latest
-    command: ["cat"]
-    tty: true
-  - name: jnlp
-    image: jenkins/inbound-agent:3283.v92c105e0f819-9
-    env:
-      - name: JENKINS_URL
-        value: 'http://192.168.49.2:30002/'
-      - name: JENKINS_SECRET
-        valueFrom:
-          secretKeyRef:
-            name: jenkins-agent-secret
-            key: secret
-      - name: JENKINS_AGENT_NAME
-        valueFrom:
-          fieldRef:
-            fieldPath: metadata.name
-      - name: JENKINS_AGENT_WORKDIR
-        value: '/home/jenkins/agent'
-    resources:
-      requests:
-        cpu: 100m
-        memory: 256Mi
-"""
+            kubernetes {
+            yaml '''
+            apiVersion: v1
+            kind: Pod
+            spec:
+              containers:
+              - name: buildah
+                image: quay.io/buildah/stable:latest
+                command: ["cat"]
+                tty: true
+            '''
         }
     }
+        
     environment {
         DOCKERHUB_CREDENTIALS = credentials('dockerhub')
     }
