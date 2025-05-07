@@ -1,44 +1,64 @@
-pipeline{
-  agent {
-    kubernetes {
-        yaml '''
-            apiVersion: v1
-            kind: Pod
-            spec:
-              containers:
-              - name: buildah
-                image: quay.io/buildah/stable:latest
-                command: ["cat"]
-                tty: true
-        '''
-    }
-  }
-  environment {
-    DOCKERHUB_CREDENTIALS = credentials('dockerhub')
-  }
-  stages{
-    stage('Build') {
-      steps {
-        container('buildah') {
-            sh 'buildah build -t buildahjenkins:latest.'
+pipeline {
+    agent {
+        kubernetes {
+            yaml """
+apiVersion: v1
+kind: Pod
+spec:
+  containers:
+  - name: buildah
+    image: quay.io/buildah/stable:latest
+    command: ["cat"]
+    tty: true
+  - name: jnlp
+    image: jenkins/inbound-agent:3283.v92c105e0f819-9
+    env:
+      - name: JENKINS_URL
+        value: 'http://192.168.49.2:30002/'
+      - name: JENKINS_SECRET
+        valueFrom:
+          secretKeyRef:
+            name: jenkins-agent-secret
+            key: secret
+      - name: JENKINS_AGENT_NAME
+        valueFrom:
+          fieldRef:
+            fieldPath: metadata.name
+      - name: JENKINS_AGENT_WORKDIR
+        value: '/home/jenkins/agent'
+    resources:
+      requests:
+        cpu: 100m
+        memory: 256Mi
+"""
         }
-      }
     }
-    stage('Tag Image') {
-      steps {
-        container('buildah') {
-            sh "buildah tag buildahjenkins:latest alberguarchu/buildahjenkins:latest"
+    environment {
+        DOCKERHUB_CREDENTIALS = credentials('dockerhub')
+    }
+    stages {
+        stage('Build') {
+            steps {
+                container('buildah') {
+                    sh 'buildah build -t buildahjenkins:latest .'
+                }
+            }
         }
-      }
+        stage('Tag Image') {
+            steps {
+                container('buildah') {
+                    sh "buildah tag buildahjenkins:latest alberguarchu/buildahjenkins:latest"
+                }
+            }
+        }
+        stage('Push') {
+            steps {
+                container('buildah') {
+                    sh "buildah login -u '$DOCKERHUB_CREDENTIALS_USR' -p '$DOCKERHUB_CREDENTIALS_PSW' docker.io"
+                    sh "buildah push docker.io/alberguarchu/buildahjenkins:latest"
+                    sh "buildah logout docker.io"
+                }
+            }
+        }
     }
-    stage('Push') {
-      steps {
-          container('buildah') {
-                  sh "buildah login -u '$DOCKERHUB_CREDENTIALS_USR' -p '$DOCKERHUB_CREDENTIALS_PSW' docker.io"
-                  sh "buildah push docker.io/alberguarchu/buildahjenkins:latest"
-                  sh "buildah logout docker.io"
-          }
-      }
-    }
-  }
 }
