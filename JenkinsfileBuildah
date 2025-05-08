@@ -1,19 +1,25 @@
 pipeline {
     agent {
-            kubernetes {
+        kubernetes {
             yaml '''
-            apiVersion: v1
-            kind: Pod
-            spec:
-              containers:
-              - name: buildah
-                image: quay.io/buildah/stable:latest
-                command: ["cat"]
-                tty: true
+                apiVersion: v1
+                kind: Pod
+                spec:
+                  containers:
+                  - name: buildah
+                    image: quay.io/buildah/stable:latest
+                    command: ["cat"]
+                    tty: true
+                  restartPolicy: Never 
+                  terminationGracePeriodSeconds: 30
+                metadata:
+                  labels:
+                    jenkins/label-selector: "buildah-agent" 
+                  annotations:
+                    "jenkins.io/delete-pod-on-completion": "true" 
             '''
         }
     }
-        
     environment {
         DOCKERHUB_CREDENTIALS = credentials('dockerhub')
     }
