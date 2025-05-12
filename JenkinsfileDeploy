@@ -1,5 +1,25 @@
 pipeline {
-    agent any
+    agent {
+    kubernetes {
+      yaml """
+        apiVersion: v1
+        kind: Pod
+        spec:
+          serviceAccountName: jenkins-admin
+          securityContext:
+            runAsUser: 1000
+          containers:
+            - name: jnlp
+              image: jenkins/inbound-agent:latest
+              args: ['\$(JENKINS_SECRET)', '\$(JENKINS_NAME)']
+            - name: kubectl
+              image: bitnami/kubectl:latest
+              command:
+                - cat
+              tty: true
+        """
+        }
+    }
     stages {
         stage('Checkout') {
             steps {
@@ -8,7 +28,10 @@ pipeline {
         }
         stage('Deploy') {
             steps {
-                sh "kubectl apply -f k8s-manifests-j"
+                container('kubectl') {
+                    sh "kubectl apply -f k8s-manifests-j"
+                }
+                
             }
         }
     }
