@@ -12,5 +12,5 @@ services:
     image: alberguarchu/testj:latest
     container_name: web
     ports:
-      - "30002:80"
+      - "30020:80"
 
