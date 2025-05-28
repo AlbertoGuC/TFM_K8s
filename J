@@ -18,7 +18,9 @@ pipeline {
              steps {
                 echo '10 segundos'
                 sleep time: 10, unit: 'SECONDS'
-                sh "kubectl get all -n prueba"
+                sh "kubectl get pods -n prueba "
+                sh "kubectl get svc -n prueba "
+                sh "kubectl get deploy -n prueba "
               }
         }
         stage('Juicio final: Eliminación') {
