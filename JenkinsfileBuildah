@@ -27,8 +27,9 @@ pipeline {
         stage('Build') {
             steps {
                 container('buildah') {
-                    sh 'buildah build --storage-driver=vfs -t docker://docker.io/alberguarchu/buildahjenkins:latest .'
                     sh "buildah login -u '$DOCKERHUB_CREDENTIALS_USR' -p '$DOCKERHUB_CREDENTIALS_PSW' docker.io"
+
+                    sh 'buildah build --storage-driver=vfs -t docker://docker.io/alberguarchu/buildahjenkins:latest .'
                     sh "buildah push docker://docker.io/alberguarchu/buildahjenkins:latest"
                     sh "buildah logout docker.io"
                 }
