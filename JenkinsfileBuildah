@@ -9,7 +9,6 @@ pipeline {
                   - name: buildah
                     image: quay.io/buildah/stable:latest
                     command: ["cat"]
-                    privileged: true
                     tty: true
                   restartPolicy: Never 
                   terminationGracePeriodSeconds: 30
