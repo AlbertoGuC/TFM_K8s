@@ -8,7 +8,9 @@ pipeline {
     stages {
         stage('Main') {
             steps {
-                sh "kubectl get all -n prueba "
+                sh "kubectl get pods -n prueba "
+                sh "kubectl get svc -n prueba "
+                sh "kubectl get deploy -n prueba "
                 sh "kubectl apply -f ./k8s-manifests-K8 -n prueba"
                 }
         }
