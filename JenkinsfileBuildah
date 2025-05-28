@@ -27,7 +27,7 @@ pipeline {
         stage('Build') {
             steps {
                 container('buildah') {
-                    sh 'buildah build -t alberguarchu/buildahjenkins:latest .'
+                    sh 'buildah build --storage-driver=vfs -t alberguarchu/buildahjenkins:latest .'
                 }
             }
         }
