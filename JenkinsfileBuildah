@@ -31,13 +31,6 @@ pipeline {
                 }
             }
         }
-        stage('Tag Image') {
-            steps {
-                container('buildah') {
-                    sh "buildah tag buildahjenkins:latest alberguarchu/buildahjenkins:latest"
-                }
-            }
-        }
         stage('Push') {
             steps {
                 container('buildah') {
