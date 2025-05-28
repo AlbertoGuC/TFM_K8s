@@ -1,0 +1,18 @@
+pipeline {
+    agent {
+        kubernetes {
+            cloud 'kubernetes'
+            label 'k8-tools'   
+        }
+    }
+    stages {
+        stage('Main') {
+            steps {
+                sh "kubectl get pods -n prueba"
+                sh "ls"
+                sh "cd k8s-manifests"
+                sh "ls"
+            }
+        }
+    }
+}
