@@ -11,7 +11,8 @@ pipeline {
                 sh "kubectl get pods -n prueba"
                 sh "ls"
                 sh "cd k8s-manifests"
-                sh "ls"
+                sh "kubectl apply -f ./k8s-manifests-K8 -n prueba"
+                sh "kubectl get pods -n prueba"
             }
         }
     }
