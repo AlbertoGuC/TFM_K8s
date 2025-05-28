@@ -9,11 +9,17 @@ pipeline {
         stage('Main') {
             steps {
                 sh "kubectl get pods -n prueba"
-                sh "ls"
-                sh "cd k8s-manifests"
                 sh "kubectl apply -f ./k8s-manifests-K8 -n prueba"
-                sh "kubectl get pods -n prueba"
-            }
+                }
         }
+        stage('Espera') {
+             steps {
+                echo '10 segundos'
+                sleep time: 10, unit: 'SECONDS'
+                sh "kubectl get pods -n prueba"
+              }
+        }
+            
     }
 }
+
