@@ -8,7 +8,7 @@ pipeline {
     stages {
         stage('Main') {
             steps {
-                sh "kubectl get pods -n prueba"
+                sh "kubectl get all -n prueba "
                 sh "kubectl apply -f ./k8s-manifests-K8 -n prueba"
                 }
         }
@@ -16,7 +16,7 @@ pipeline {
              steps {
                 echo '10 segundos'
                 sleep time: 10, unit: 'SECONDS'
-                sh "kubectl get pods -n prueba"
+                sh "kubectl get all -n prueba"
               }
         }
         stage('Juicio final: Eliminación') {
