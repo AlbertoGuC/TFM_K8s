@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "helmweb.fullname" . }} 
+  labels:
+    {{- include "helmweb.labels" . | nindent 4 }} 
+spec:
+  replicas: {{ .Values.replicaCount }} 
+  selector:
+    matchLabels:
+      {{- include "helmweb.selectorLabels" . | nindent 6 }} 
+  template:
+    metadata:
+      labels:
+        {{- include "helmweb.selectorLabels" . | nindent 8 }} 
+    spec:
+      containers:
+        - name: {{ include "helmweb.name" . }} 
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}" 
+          imagePullPolicy: {{ .Values.image.pullPolicy }} 
+          ports:
+            - containerPort: {{ .Values.service.targetPort }} 
+              protocol: TCP
+      restartPolicy: Always 

@@ -1,0 +1,16 @@
+
+replicaCount: 1
+
+image:
+  repository: alberguarchu/testj
+  tag: latest 
+  pullPolicy: IfNotPresent
+
+service:
+  type: NodePort 
+  port: 30020   
+  targetPort: 80   
+  name: "http-port" 
+
+nameOverride: ""
+fullnameOverride: ""
