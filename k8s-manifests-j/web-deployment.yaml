@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   annotations:
     kompose.cmd: kompose convert -f docker-compose.yaml -o k8s-manifests-j/
-    kompose.version: 1.35.0 (9532ceef3)
+    kompose.version: 1.36.0 (ae2a39403)
   labels:
     io.kompose.service: web
   name: web
@@ -16,7 +16,7 @@ spec:
     metadata:
       annotations:
         kompose.cmd: kompose convert -f docker-compose.yaml -o k8s-manifests-j/
-        kompose.version: 1.35.0 (9532ceef3)
+        kompose.version: 1.36.0 (ae2a39403)
       labels:
         io.kompose.service: web
     spec:
