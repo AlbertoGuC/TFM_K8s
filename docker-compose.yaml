@@ -9,7 +9,7 @@ services:
       #- ./styles.css:/usr/share/nginx/html/styles.css
     #command: ["/bin/sh", "-c", "sed -i 's/listen 80;/listen 3000;/' /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'"]
   web:
-    image: alberguarchu/testj:latest
+    image: alberguarchu/buildahjenkins2:latest
     container_name: web
     ports:
       - "30020:80"
