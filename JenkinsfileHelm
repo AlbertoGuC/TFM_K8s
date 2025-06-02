@@ -8,16 +8,12 @@ pipeline {
     stages {
         stage('Main') {
             steps {
-                sh "helm version"
-                sh "helm repo add grafana https://grafana.github.io/helm-charts"
-                sh "helm repo update"
-                sh "helm install grafanahelm grafana/grafana --namespace prueba"
+                sh "helm lint helmweb"
+                sh "helm install webtest helmweb --namespace prueba"
                 sh "helm list -n prueba"
                 echo '10 segundos'
                 sleep time: 10, unit: 'SECONDS'
                 sh "kubectl get pods -n prueba"
-                sleep time: 10, unit: 'SECONDS'
-                sh "helm uninstall grafanahelm --namespace prueba"
             }
         }
     }
