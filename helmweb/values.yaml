@@ -2,7 +2,7 @@
 replicaCount: 1
 
 image:
-  repository: alberguarchu/buildahjenkins
+  repository: alberguarchu/buildahjenkins2
   tag: latest 
   pullPolicy: IfNotPresent
 
