@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "my-web-app.fullname" . }} 
+  labels:
+    {{- include "my-web-app.labels" . | nindent 4 }} 
+spec:
+  replicas: {{ .Values.replicaCount }} 
+  selector:
+    matchLabels:
+      {{- include "my-web-app.selectorLabels" . | nindent 6 }} 
+  template:
+    metadata:
+      labels:
+        {{- include "my-web-app.selectorLabels" . | nindent 8 }} 
+    spec:
+      containers:
+        - name: {{ include "my-web-app.name" . }} 
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}" 
+          imagePullPolicy: {{ .Values.image.pullPolicy }} 
+          ports:
+            - containerPort: {{ .Values.service.targetPort }} 
+              protocol: TCP
+      restartPolicy: Always 
