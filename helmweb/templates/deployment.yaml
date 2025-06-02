@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "my-web-app.fullname" . }} 
+  name: {{ include "helmweb.fullname" . }} 
   labels:
-    {{- include "my-web-app.labels" . | nindent 4 }} 
+    {{- include "helmweb.labels" . | nindent 4 }} 
 spec:
   replicas: {{ .Values.replicaCount }} 
   selector:
     matchLabels:
-      {{- include "my-web-app.selectorLabels" . | nindent 6 }} 
+      {{- include "helmweb.selectorLabels" . | nindent 6 }} 
   template:
     metadata:
       labels:
-        {{- include "my-web-app.selectorLabels" . | nindent 8 }} 
+        {{- include "helmweb.selectorLabels" . | nindent 8 }} 
     spec:
       containers:
-        - name: {{ include "my-web-app.name" . }} 
+        - name: {{ include "helmweb.name" . }} 
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}" 
           imagePullPolicy: {{ .Values.image.pullPolicy }} 
           ports:

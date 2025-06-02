@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "my-web-app.fullname" . }} 
+  name: {{ include "helmweb.fullname" . }} 
   labels:
-    {{- include "my-web-app.labels" . | nindent 4 }} 
+    {{- include "helmweb.labels" . | nindent 4 }} 
 spec:
   type: {{ .Values.service.type }} 
   ports:
@@ -13,4 +13,4 @@ spec:
       protocol: TCP
       
   selector:
-    {{- include "my-web-app.selectorLabels" . | nindent 4 }} 
+    {{- include "helmweb.selectorLabels" . | nindent 4 }} 
