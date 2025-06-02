@@ -1,0 +1,37 @@
+pipeline {
+    agent {
+        kubernetes {
+            yaml '''
+                apiVersion: v1
+                kind: Pod
+                spec:
+                  containers:
+                  - name: buildah
+                    image: quay.io/buildah/stable:latest
+                    command: ["cat"]
+                    tty: true
+                  restartPolicy: Never 
+                  terminationGracePeriodSeconds: 30
+                metadata:
+                  labels:
+                    jenkins/label-selector: "buildah-agent" 
+                  annotations:
+                    "jenkins.io/delete-pod-on-completion": "true" 
+            '''
+        }
+    }
+    environment {
+        DOCKERHUB_CREDENTIALS = credentials('dockerhub')
+    }
+    stages {
+        stage('Build') {
+            steps {
+                container('buildah') {
+                    sh "buildah login -u '$DOCKERHUB_CREDENTIALS_USR' -p '$DOCKERHUB_CREDENTIALS_PSW' docker.io"
+                    sh 'buildah build --storage-driver=vfs -t docker://docker.io/alberguarchu/buildahjenkins:latest .'
+                    sh "buildah logout docker.io"
+                }
+            }
+        }
+    }
+}

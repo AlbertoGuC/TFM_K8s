@@ -1,0 +1,34 @@
+pipeline {
+    agent {
+        kubernetes {
+            cloud 'kubernetes'
+            label 'jenkinsh-agente'   
+        }
+    }
+    stages {
+        stage('Main') {
+            steps {
+                sh "kubectl get pods -n prueba "
+                sh "kubectl get svc -n prueba "
+                sh "kubectl get deploy -n prueba "
+                sh "kubectl apply -f ./k8s-manifests-K8 -n prueba"
+                }
+        }
+        stage('Espera') {
+             steps {
+                echo '10 segundos'
+                sleep time: 10, unit: 'SECONDS'
+                sh "kubectl get pods -n prueba "
+                sh "kubectl get svc -n prueba "
+                sh "kubectl get deploy -n prueba "
+              }
+        }
+        stage('Juicio final: Eliminación') {
+             steps {
+                sh "kubectl delete -f ./k8s-manifests-K8 -n prueba"
+              }
+        }
+            
+    }
+}
+

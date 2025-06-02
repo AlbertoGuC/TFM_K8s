@@ -1,4 +1,4 @@
-FROM nginx:latest
+FROM docker.io/library/nginx:latest
 WORKDIR /usr/share/nginx/html
 COPY index.html .
 COPY styles.css .
