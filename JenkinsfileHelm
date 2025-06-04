@@ -13,8 +13,7 @@ pipeline {
                 sh "helm list -n prueba"
                 echo '10 segundos'
                 sleep time: 10, unit: 'SECONDS'
-                sh "kubectl get pods -n prueba"
-                sh "helm uninstall webtest -n prueba"
+                //sh "helm uninstall webtest -n prueba"
             }
         }
     }
