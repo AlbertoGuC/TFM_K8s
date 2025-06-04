@@ -1,0 +1,41 @@
+pipeline {
+  stages {
+        stage('Helm deploy') {
+            agent {
+                kubernetes {
+                    cloud 'kubernetes'
+                    label 'jenkins-helm'
+                }
+            }
+            steps {
+                //sh "helm lint helmweb"
+                sh "helm install webtest helmweb --namespace prueba"
+                sh "helm list -n prueba"
+            }
+        }
+        stage('Ver deploy') {
+            agent {
+                kubernetes {
+                    cloud 'kubernetes'
+                    label 'jenkins-kubectl'
+                }
+            }
+            steps {
+                echo '10 segundos'
+                sleep time: 10, unit: 'SECONDS'
+                sh "kubectl get pods -n prueba"
+            }
+        }
+        stage('Eliminar deploy') {
+            agent {
+                kubernetes {
+                    cloud 'kubernetes'
+                    label 'jenkins-helm'
+                }
+            }
+            steps {
+                sh "helm uninstall webtest -n prueba"
+            }
+        }
+    }
+}
