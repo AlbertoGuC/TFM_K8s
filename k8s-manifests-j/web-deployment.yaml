@@ -21,7 +21,7 @@ spec:
         io.kompose.service: web
     spec:
       containers:
-        - image: alberguarchu/buildahjenkins2:latest
+        - image: nexus:8082/docker-priv/buildahjenkins:latest
           name: web
           ports:
             - containerPort: 80
