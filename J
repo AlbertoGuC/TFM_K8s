@@ -2,7 +2,7 @@ pipeline {
     agent {
         kubernetes {
             cloud 'kubernetes'
-            label 'jenkinsh-agente'   
+            label 'jenkins-kubectl'   
         }
     }
     stages {
@@ -23,11 +23,11 @@ pipeline {
                 sh "kubectl get deploy -n prueba "
               }
         }
-        /*stage('Juicio final: Eliminación') {
+        stage('Juicio final: Eliminación') {
              steps {
                 sh "kubectl delete -f ./k8s-manifests-j -n prueba"
               }
-        }*/
+        }
             
     }
 }
