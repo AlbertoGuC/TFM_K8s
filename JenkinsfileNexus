@@ -14,11 +14,16 @@ pipeline {
                     - mountPath: "/home/jenkins/agent"
                       name: "workspace-volume"
                       readOnly: false
+                    - mountPath: "/var/lib/containers"
+                      name: "buildah-storage"
+                      readOnly: false
                   restartPolicy: Never 
                   terminationGracePeriodSeconds: 30
                   volumes:
                   - emptyDir: {}
                     name: "workspace-volume"
+                  - emptyDir: {}
+                    name: "buildah-storage"
                 metadata:
                   labels:
                     jenkins/label-selector: "buildah-agent" 
