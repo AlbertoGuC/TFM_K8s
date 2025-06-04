@@ -10,6 +10,9 @@ pipeline {
                     image: quay.io/buildah/stable:latest
                     command: ["cat"]
                     tty: true
+                    env:
+                    - name: BUILDAH_ROOT
+                      value: "/var/lib/containers"
                     volumeMounts:
                     - mountPath: "/home/jenkins/agent"
                       name: "workspace-volume"
