@@ -27,9 +27,9 @@ pipeline {
         stage('Build') {
             steps {
                 container('buildah') {
-                    sh "buildah login -u '$DOCKERHUB_CREDENTIALS_USR' -p '$DOCKERHUB_CREDENTIALS_PSW' http://10.101.27.213:8082"
-                    sh "buildah build --storage-driver=vfs -t docker://10.101.27.213:8082/docker-priv/buildahjenkins2:latest ."
-                    sh "buildah logout 10.101.27.213:8082"
+                    sh "buildah login --tls-verify=false -u '$DOCKERHUB_CREDENTIALS_USR' -p '$DOCKERHUB_CREDENTIALS_PSW' nexus:8082"
+                    sh "buildah build --storage-driver=vfs -t docker://nexus:8082/docker-priv/buildahjenkins2:latest ."
+                    sh "buildah logout nexus:8082"
                 }
             }
         }
