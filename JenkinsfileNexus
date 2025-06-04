@@ -10,8 +10,15 @@ pipeline {
                     image: quay.io/buildah/stable:latest
                     command: ["cat"]
                     tty: true
+                    volumeMounts:
+                    - mountPath: "/home/jenkins/agent"
+                      name: "workspace-volume"
+                      readOnly: false
                   restartPolicy: Never 
                   terminationGracePeriodSeconds: 30
+                  volumes:
+                  - emptyDir: {}
+                    name: "workspace-volume"
                 metadata:
                   labels:
                     jenkins/label-selector: "buildah-agent" 
