@@ -50,7 +50,6 @@ pipeline {
                 container('buildah') {
                     sh "buildah login --tls-verify=false -u '$DOCKERHUB_CREDENTIALS_USR' -p '$DOCKERHUB_CREDENTIALS_PSW' nexus:8082"
                     sh "buildah build --storage-driver=vfs -t nexus:8082/docker-priv/buildahjenkins2:latest ."
-                    sh "buildah images -storage-driver=vfs"
                     sh "buildah push -storage-driver=vfs --tls-verify=false nexus:8082/docker-priv/buildahjenkins2:latest"
                     sh "buildah logout nexus:8082"
                 }
