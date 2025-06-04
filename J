@@ -11,7 +11,7 @@ pipeline {
                 sh "kubectl get pods -n prueba "
                 sh "kubectl get svc -n prueba "
                 sh "kubectl get deploy -n prueba "
-                sh "kubectl apply -f ./k8s-manifests-K8 -n prueba"
+                sh "kubectl apply -f ./k8s-manifests-j -n prueba"
                 }
         }
         stage('Espera') {
@@ -25,7 +25,7 @@ pipeline {
         }
         /*stage('Juicio final: Eliminación') {
              steps {
-                sh "kubectl delete -f ./k8s-manifests-K8 -n prueba"
+                sh "kubectl delete -f ./k8s-manifests-j -n prueba"
               }
         }*/
             
