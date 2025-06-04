@@ -4,18 +4,17 @@ pipeline {
             cloud 'kubernetes' 
             label 'jenkinsh-agente' 
         }
+    }
     environment {
         DOCKERHUB_CREDENTIALS = credentials('nexus')
     }
     stages {
         stage('Build') {
             steps {
-                container('buildah') {
-                    sh "buildah login --tls-verify=false -u '$DOCKERHUB_CREDENTIALS_USR' -p '$DOCKERHUB_CREDENTIALS_PSW' nexus:8082"
-                    sh "buildah build -t nexus:8082/docker-priv/buildahjenkins2:latest ."
-                    sh "buildah push --tls-verify=false nexus:8082/docker-priv/buildahjenkins2:latest"
-                    sh "buildah logout nexus:8082"
-                }
+                sh "buildah login --tls-verify=false -u '$DOCKERHUB_CREDENTIALS_USR' -p '$DOCKERHUB_CREDENTIALS_PSW' nexus:8082"
+                sh "buildah build -t nexus:8082/docker-priv/buildahjenkins2:latest ."
+                sh "buildah push --tls-verify=false nexus:8082/docker-priv/buildahjenkins2:latest"
+                sh "buildah logout nexus:8082"
             }
         }
     }
