@@ -1,46 +1,9 @@
 pipeline {
     agent {
         kubernetes {
-            yaml '''
-                apiVersion: v1
-                kind: Pod
-                metadata:
-                  labels:
-                    jenkins/label-selector: "buildah-agent"
-                  annotations:
-                    "jenkins.io/delete-pod-on-completion": "true"
-                spec:
-                  restartPolicy: Never
-                  terminationGracePeriodSeconds: 30
-                  containers:
-                  - name: buildah
-                    image: quay.io/buildah/stable:latest
-                    command: ["cat"]
-                    tty: true
-                    env:
-                    - name: BUILDAH_ROOT
-                      value: "/var/lib/containers"
-                    securityContext:
-                      capabilities:
-                        add:
-                          - SYS_ADMIN
-                          - NET_RAW
-                      runAsUser: 0
-                    volumeMounts:
-                    - mountPath: "/home/jenkins/agent"
-                      name: "workspace-volume"
-                      readOnly: false
-                    - mountPath: "/var/lib/containers"
-                      name: "buildah-storage"
-                      readOnly: false
-                  volumes:
-                  - emptyDir: {}
-                    name: "workspace-volume"
-                  - emptyDir: {}
-                    name: "buildah-storage"
-            '''
+            cloud 'kubernetes' 
+            label 'jenkinsh-agente' 
         }
-    }
     environment {
         DOCKERHUB_CREDENTIALS = credentials('nexus')
     }
