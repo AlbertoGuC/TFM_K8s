@@ -2,7 +2,7 @@ pipeline {
     agent {
         kubernetes {
             cloud 'kubernetes' 
-            label 'jenkins-helm' 
+            label 'jenkinsh-agente' 
         }
     }
     stages {
