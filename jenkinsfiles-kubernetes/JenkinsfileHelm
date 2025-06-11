@@ -2,7 +2,7 @@ pipeline {
     agent {
         kubernetes {
             cloud 'kubernetes' 
-            label 'jenkins-helm' 
+            label 'helm' 
         }
     }
     stages {
@@ -13,7 +13,7 @@ pipeline {
                 sh "helm list -n prueba"
                 echo '10 segundos'
                 sleep time: 10, unit: 'SECONDS'
-                //sh "helm uninstall webtest -n prueba"
+                sh "helm uninstall webtest -n prueba"
             }
         }
     }
