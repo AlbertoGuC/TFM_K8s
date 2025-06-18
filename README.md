@@ -1,4 +1,4 @@
-Última actualización: 2025-06-18 10:05:38
+Última actualización: 2025-06-18 10:15:07
 
 # TFM_K8s
 Repositorio para las pruebas sobre Kompose del TFM.
