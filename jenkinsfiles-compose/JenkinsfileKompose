@@ -8,9 +8,9 @@ pipeline {
       steps {
         sh '''
         git checkout main || git checkout -b main origin/main
-        rm -rf k8s-manifests-j
-        mkdir -p k8s-manifests-j
-        kompose convert -f docker-compose.yaml -o k8s-manifests-j/
+        rm -rf k8s-manifests-docker
+        mkdir -p k8s-manifests-docer
+        kompose convert -f docker-compose.yaml -o k8s-manifests-docker/
         '''
       }
     }
