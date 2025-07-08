@@ -12,8 +12,8 @@ pipeline {
         stage('Build') {
             steps {
                     sh "buildah login -u '$DOCKERHUB_CREDENTIALS_USR' -p '$DOCKERHUB_CREDENTIALS_PSW' docker.io"
-                    sh 'buildah build --storage-driver=vfs -t alberguarchu/buildahtfm:latest .'
-                    sh "buildah push  alberguarchu/buildahtfm:latest"
+                    sh 'buildah build --storage-driver=vfs -t docker.io/alberguarchu/defensa:latest .'
+                    sh "buildah push  docker.io/alberguarchu/defensa:latest"
                     sh "buildah logout docker.io"
             }
         }
