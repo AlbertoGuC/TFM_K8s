@@ -29,7 +29,6 @@ pipeline {
                 container('buildah') {
                     sh "buildah login -u '$DOCKERHUB_CREDENTIALS_USR' -p '$DOCKERHUB_CREDENTIALS_PSW' docker.io"
                     sh 'buildah build --storage-driver=vfs -t docker://docker.io/alberguarchu/buildahjenkins2:latest .'
-                    sh "buildah push --tls-verify=false docker://docker.io/alberguarchu/buildahjenkins2:latest"
                     sh "buildah logout docker.io"
                 }
             }
