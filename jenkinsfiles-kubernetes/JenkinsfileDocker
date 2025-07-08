@@ -1,0 +1,21 @@
+pipeline {
+    agent {
+        kubernetes {
+            cloud 'kubernetes' 
+            label 'buildah' 
+        }
+    }
+    environment {
+        NEXUS_CREDENTIALS = credentials('dockerhub')
+    }
+    stages {
+        stage('Build') {
+            steps {
+                    sh "buildah login -u '$DOCKERHUB_CREDENTIALS_USR' -p '$DOCKERHUB_CREDENTIALS_PSW' docker.io"
+                    sh 'buildah build --storage-driver=vfs -t alberguarchu/buildahjenkins2:latest .'
+                    sh "buildah push  alberguarchu/buildahjenkins2:latest"
+                    sh "buildah logout docker.io"
+            }
+        }
+    }
+}
