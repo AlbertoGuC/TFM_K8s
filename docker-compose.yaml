@@ -1,7 +1,8 @@
 services:
   web:
     #image: nexus:8082/docker-priv/buildahjenkins:latest
-    image: alberguarchu/buildahjenkins2:latest
+    #image: alberguarchu/buildahjenkins2:latest
+    image: alberguarchu/defensatfm:latest
     container_name: web
     ports:
       - "30030:80"
