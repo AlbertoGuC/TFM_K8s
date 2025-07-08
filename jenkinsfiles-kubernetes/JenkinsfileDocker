@@ -6,7 +6,7 @@ pipeline {
         }
     }
     environment {
-        NEXUS_CREDENTIALS = credentials('dockerhub')
+        DOCKERHUB_CREDENTIALS = credentials('dockerhub')
     }
     stages {
         stage('Build') {
