@@ -19,7 +19,7 @@ pipeline {
     }
     stage('Push') {
       steps {
-        sh 'docker push alberguarchu/tfmcomp:latest'
+        sh 'docker push alberguarchu/defensatfm:latest'
       }
     }
   }
